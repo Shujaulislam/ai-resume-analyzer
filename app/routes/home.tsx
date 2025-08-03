@@ -3,7 +3,7 @@ import {resumes} from "../../constants";
 import ResumeCard from "~/components/ResumeCard";
 import Navbar from "~/components/Navbar";
 import {usePuterStore} from "~/lib/puter";
-import {useLocation, useNavigate} from "react-router";
+import {useNavigate} from "react-router";
 import {useEffect} from "react";
 
 export function meta({}: Route.MetaArgs) {
@@ -15,7 +15,6 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   const { auth } = usePuterStore();
-  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
