@@ -1,4 +1,4 @@
-import {useCallback} from 'react'
+import {useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
 import { formatSize } from '~/lib/utils'
 
@@ -7,10 +7,17 @@ interface FileUploaderProps {
 }
 
 const FileUploader = ({ onFileSelect }: FileUploaderProps) => {
+     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
     const onDrop = useCallback((acceptedFiles: File[]) => {
         const file = acceptedFiles[0] || null;
 
         onFileSelect?.(file);
+    }, [onFileSelect]);
+
+        const handleRemoveFile = useCallback(() => {
+        setSelectedFile(null);
+        onFileSelect?.(null);
     }, [onFileSelect]);
 
     const maxFileSize = 20 * 1024 * 1024; // 20MB in bytes
@@ -46,7 +53,8 @@ const FileUploader = ({ onFileSelect }: FileUploaderProps) => {
                                 </div>
                             </div>
                              <button className="p-2 cursor-pointer" onClick={(e) => {
-                                onFileSelect?.(null)
+                                 e.stopPropagation();
+                                handleRemoveFile();
                             }}>
                                 <img src="/icons/cross.svg" alt="remove" className="w-4 h-4" />
                             </button>
